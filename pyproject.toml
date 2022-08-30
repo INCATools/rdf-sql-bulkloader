@@ -1,9 +1,10 @@
 [tool.poetry]
 name = "rdf-sql-bulkloader"
-version = "0.1.0"
+version = "0.1.0rc2"
 description = "rdf-sql-bulkloader"
 authors = ["Chris Mungall <cjmungall@lbl.gov>"]
 license = "BSD 3"
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.8"
