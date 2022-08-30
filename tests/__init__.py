@@ -11,6 +11,9 @@ OUTPUT_DIR = Path(ROOT) / "output"
 
 TEST_BASE = "go-nucleus"
 TEST_INPUT_OWL = INPUT_DIR / f"{TEST_BASE}.owl"
+TEST_LANG_BASE = "lang-example"
+TEST_LANG_INPUT_OWL = INPUT_DIR / f"{TEST_LANG_BASE}.owl"
+TEST_LANG_INPUT_TTL = INPUT_DIR / f"{TEST_LANG_BASE}.ttl"
 
 def output_path(fn: str) -> str:
     return str(Path(OUTPUT_DIR) / fn)
