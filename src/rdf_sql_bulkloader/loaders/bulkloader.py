@@ -89,6 +89,7 @@ class BulkLoader(ABC):
     prefix_map: PREFIX_MAP = None
     converter: Converter = None
     index_statements = False
+    rdftab_compatibility = True
 
     def __post_init__(self):
         if self.prefix_map is None:
