@@ -1,10 +1,10 @@
 """Command line interface for rdf-sql-bulkloader."""
+import logging
 from pathlib import Path
 
 import click
-import logging
 
-from rdf_sql_bulkloader import __version__, SqliteBulkloader
+from rdf_sql_bulkloader import SqliteBulkloader, __version__
 
 logger = logging.getLogger(__name__)
 

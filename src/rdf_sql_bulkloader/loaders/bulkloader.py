@@ -3,7 +3,7 @@ from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Union, Tuple, Iterator, Mapping, Optional, List
+from typing import Iterator, List, Mapping, Optional, Tuple, Union
 
 import curies
 import lightrdf

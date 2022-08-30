@@ -3,8 +3,7 @@
 import unittest
 
 from rdf_sql_bulkloader import SqliteBulkloader
-from tests import TEST_INPUT_OWL, NUCLEUS, TEST_PREFIX_MAP
-
+from tests import NUCLEUS, TEST_INPUT_OWL, TEST_PREFIX_MAP
 
 CASES = [
     (None, "GO:0005634", "RO:0002161", "NCBITaxon:2", None, None, None, None),
