@@ -32,7 +32,10 @@ def main(verbose: int, quiet: bool):
 @main.command()
 @click.option("--output", "-o", required=True)
 @click.option(
-    "--force/--no-force", default=False, show_default=True, help="Recreates db if already present"
+    "--force/--no-force",
+    default=False,
+    show_default=True,
+    help="Recreates db if already present"
 )
 @click.argument("files", nargs=-1)
 def load_sqlite(files, output, force: bool):
@@ -45,7 +48,7 @@ def load_sqlite(files, output, force: bool):
             raise ValueError(f"Path exists {output_path}")
     loader = SqliteBulkloader(output)
     if len(files) > 1:
-        logging.warning(f"Blank nodes may be shared TODO FIX ME")
+        logging.warning("Blank nodes may be shared TODO FIX ME")
     for file in files:
         print(file)
         loader.bulkload(file)

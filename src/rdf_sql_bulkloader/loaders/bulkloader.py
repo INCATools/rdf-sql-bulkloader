@@ -1,3 +1,6 @@
+"""
+Base class for loaders
+"""
 import re
 from abc import ABC
 from collections import defaultdict
@@ -5,7 +8,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterator, List, Mapping, Optional, Tuple, Union
 
-import curies
 import lightrdf
 from curies import Converter
 from prefixmaps.io.parser import load_multi_context
@@ -18,14 +20,14 @@ re_blank_node = re.compile(r"^riog(\d+)$")
 
 DDL = """
 CREATE TABLE statement (
-	id TEXT,
-	subject TEXT,
-	predicate TEXT,
-	object TEXT,
-	value TEXT,
-	datatype TEXT,
-	language TEXT,
-        graph TEXT
+    id TEXT,
+    subject TEXT,
+    predicate TEXT,
+    object TEXT,
+    value TEXT,
+    datatype TEXT,
+    language TEXT,
+    graph TEXT
 );
 """
 
