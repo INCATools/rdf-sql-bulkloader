@@ -36,15 +36,22 @@ class TestSqlit3BulkLoader(unittest.TestCase):
 
     def test_bulkload(self):
         loader = SqliteBulkloader(path=":memory:")
+        loader.rdftab_compatibility = True
         loader.bulkload(TEST_INPUT_OWL)
         con = loader.connection
         cur = con.cursor()
         cur.execute("select * from statement WHERE subject=:subject", {"subject": NUCLEUS})
         stmts = list(cur.fetchall())
-        for s in stmts:
-            print(s)
+        #for s in stmts:
+        #    print(s)
         for case in CASES:
             self.assertIn(case, stmts)
+        # rdftab
+        cur.execute("select * from statements WHERE subject=:subject", {"subject": NUCLEUS})
+        stmts = list(cur.fetchall())
+        for s in stmts:
+            print(s)
+        assert len(stmts) > 1
             
     def test_lang_tags(self):
         """

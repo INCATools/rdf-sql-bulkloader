@@ -34,8 +34,12 @@ def main(verbose: int, quiet: bool):
 @click.option(
     "--force/--no-force", default=False, show_default=True, help="Recreates db if already present"
 )
+@click.option(
+    "--rdftab-compatibility/--no-rdftab-compatibility", default=True, show_default=True,
+    help="Creates a statements table, compatible with rdftab"
+)
 @click.argument("files", nargs=-1)
-def load_sqlite(files, output, force: bool):
+def load_sqlite(files, output, force: bool, rdftab_compatibility: bool):
     """Run the rdf-sql-bulkloader's demo command."""
     output_path = Path(output)
     if output_path.exists():
@@ -44,6 +48,7 @@ def load_sqlite(files, output, force: bool):
         else:
             raise ValueError(f"Path exists {output_path}")
     loader = SqliteBulkloader(output)
+    loader.rdftab_compatibility = rdftab_compatibility
     if len(files) > 1:
         logging.warning("Blank nodes may be shared TODO FIX ME")
     for file in files:
