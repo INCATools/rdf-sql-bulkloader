@@ -8,6 +8,7 @@ from rdf_sql_bulkloader import __version__, SqliteBulkloader
 
 logger = logging.getLogger(__name__)
 
+
 @click.group()
 @click.option("-v", "--verbose", count=True)
 @click.option("-q", "--quiet")
@@ -30,10 +31,9 @@ def main(verbose: int, quiet: bool):
 
 @main.command()
 @click.option("--output", "-o", required=True)
-@click.option("--force/--no-force",
-              default=False,
-              show_default=True,
-              help="Recreates db if already present")
+@click.option(
+    "--force/--no-force", default=False, show_default=True, help="Recreates db if already present"
+)
 @click.argument("files", nargs=-1)
 def load_sqlite(files, output, force: bool):
     """Run the rdf-sql-bulkloader's demo command."""
@@ -49,8 +49,6 @@ def load_sqlite(files, output, force: bool):
     for file in files:
         print(file)
         loader.bulkload(file)
-
-     
 
 
 if __name__ == "__main__":

@@ -1,9 +1,7 @@
 import os
 from pathlib import Path
 
-TEST_PREFIX_MAP = {
-    "GO": "http://purl.obolibrary.org/obo/GO_"
-}
+TEST_PREFIX_MAP = {"GO": "http://purl.obolibrary.org/obo/GO_"}
 
 ROOT = os.path.abspath(os.path.dirname(__file__))
 INPUT_DIR = Path(ROOT) / "input"
@@ -11,6 +9,7 @@ OUTPUT_DIR = Path(ROOT) / "output"
 
 TEST_BASE = "go-nucleus"
 TEST_INPUT_OWL = INPUT_DIR / f"{TEST_BASE}.owl"
+
 
 def output_path(fn: str) -> str:
     return str(Path(OUTPUT_DIR) / fn)
