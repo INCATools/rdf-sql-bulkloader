@@ -7,13 +7,15 @@ import os
 import re
 import sys
 from datetime import date
-from rdf-sql-bulkloader import __version__
+
+from rdf_sql_bulkloader import __version__
+
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'rdf-sql-bulkloader'
+project = "rdf-sql-bulkloader"
 copyright = 'f"{date.today().year}, Chris Mungall <cjmungall@lbl.gov>'
-author = 'Chris Mungall <cjmungall@lbl.gov>'
+author = "Chris Mungall <cjmungall@lbl.gov>"
 release = __version__
 
 # -- General configuration ---------------------------------------------------
@@ -45,13 +47,13 @@ language = "en"
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'sphinx_rtd_theme'
-html_static_path = ['_static']
+html_theme = "sphinx_rtd_theme"
+html_static_path = ["_static"]
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
