@@ -104,7 +104,7 @@ class BulkLoader(ABC):
             self.converter = Converter.from_prefix_map(self.prefix_map)
 
     def bulkload(self, path: str):
-        raise NotImplemented
+        raise NotImplementedError
 
     def _parse_node(self, o: str) -> str:
         if re_blank_node.match(o):

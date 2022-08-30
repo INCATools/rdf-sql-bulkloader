@@ -3,7 +3,15 @@
 import unittest
 
 from rdf_sql_bulkloader import SqliteBulkloader
-from tests import NUCLEUS, TEST_INPUT_OWL, TEST_PREFIX_MAP
+from tests import NUCLEUS, TEST_INPUT_OWL
+
+DEFN = (
+    "A membrane-bounded organelle of eukaryotic cells in which chromosomes "
+    + "are housed and replicated. In most cells, the nucleus contains all of the cell's "
+    + "chromosomes except the organellar chromosomes, and is the site of RNA synthesis "
+    + "and processing. In some species, or in specialized cell types, "
+    + "RNA metabolism or DNA replication may be absent."
+)
 
 CASES = [
     (None, "GO:0005634", "RO:0002161", "NCBITaxon:2", None, None, None, None),
@@ -12,7 +20,7 @@ CASES = [
         "GO:0005634",
         "IAO:0000115",
         None,
-        "A membrane-bounded organelle of eukaryotic cells in which chromosomes are housed and replicated. In most cells, the nucleus contains all of the cell's chromosomes except the organellar chromosomes, and is the site of RNA synthesis and processing. In some species, or in specialized cell types, RNA metabolism or DNA replication may be absent.",
+        DEFN,
         "http://www.w3.org/2001/XMLSchema#string",
         None,
         None,
