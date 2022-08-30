@@ -22,3 +22,4 @@ class SqliteBulkloader(BulkLoader):
         colstr = ",".join(COLS)
         qs = ",".join(["?" for _ in COLS])
         con.executemany(f"insert into statement({colstr}) values ({qs})", tuples)
+        con.commit()

@@ -3,11 +3,12 @@ from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Union, Tuple, Iterator, Mapping, Optional
+from typing import Union, Tuple, Iterator, Mapping, Optional, List
 
 import curies
 import lightrdf
 from curies import Converter
+from prefixmaps.io.parser import load_multi_context
 
 re_untyped_literal = re.compile(r'^"(.*)"$')
 re_typed_literal = re.compile(r'^"(.*)"\^\^<([\S^"]+)>$')
@@ -72,22 +73,41 @@ def _parse_literal(o: str) -> Tuple[OBJECT_VALUE, OBJECT_DATATYPE, OBJECT_LANG]:
 def _parse_literal_as_value(o: str) -> str:
     return _parse_literal(o)[0]
 
+
+
 @dataclass
 class BulkLoader(ABC):
     """
     Base class for all bulk loaders
     """
     path: str
+    named_prefix_maps: List[str] = None
     prefix_map: PREFIX_MAP = None
     converter: Converter = None
     index_statements = False
     
     def __post_init__(self):
+        if self.prefix_map is None:
+            named_prefix_maps = self.named_prefix_maps
+            if named_prefix_maps is None:
+                named_prefix_maps = ["merged"]
+            if len(named_prefix_maps) > 0:
+                ctxt = load_multi_context(named_prefix_maps)
+                self.prefix_map = ctxt.as_dict()
+        self._set_converter()
+
+    def _set_converter(self):
         if self.prefix_map:
             self.converter = Converter.from_prefix_map(self.prefix_map)
 
     def bulkload(self, path: str):
         raise NotImplemented
+
+    def _parse_node(self, o: str) -> str:
+        if re_blank_node.match(o):
+            return f"_:{o}"
+        else:
+            return self.contract_uri(o)
 
     def contract_uri(self, uri: Optional[URI]) -> Optional[str]:
         if uri is None:
@@ -139,7 +159,7 @@ class BulkLoader(ABC):
 
         # this code could be reduced if https://github.com/ozekik/lightrdf/issues/12 is implemented
         for t in doc.search_triples(None, None, None):
-            s = self.contract_uri(t[0])
+            s = self._parse_node(t[0])
             p = self.contract_uri(t[1])
             o = t[2]
             o_uri = None
@@ -149,10 +169,7 @@ class BulkLoader(ABC):
                 o_value, o_datatype, o_lang = _parse_literal(o)
             else:
                 o_value = None
-                if re_blank_node.match(o):
-                    o_uri = f"_:{o}"
-                else:
-                    o_uri = self.contract_uri(o)
+                o_uri = self._parse_node(o)
             yield s, p, o_uri, o_value, o_datatype, o_lang
 
     def ddl(self) -> str:
