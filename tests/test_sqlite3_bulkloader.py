@@ -3,7 +3,8 @@
 import unittest
 
 from rdf_sql_bulkloader import SqliteBulkloader
-from tests import NUCLEUS, TEST_INPUT_OWL
+
+from tests import TEST_INPUT_OWL, NUCLEUS, TEST_PREFIX_MAP, TEST_LANG_INPUT_OWL, TEST_LANG_INPUT_TTL
 
 DEFN = (
     "A membrane-bounded organelle of eukaryotic cells in which chromosomes "
@@ -12,6 +13,7 @@ DEFN = (
     + "and processing. In some species, or in specialized cell types, "
     + "RNA metabolism or DNA replication may be absent."
 )
+
 
 CASES = [
     (None, "GO:0005634", "RO:0002161", "NCBITaxon:2", None, None, None, None),
@@ -43,3 +45,26 @@ class TestSqlit3BulkLoader(unittest.TestCase):
             print(s)
         for case in CASES:
             self.assertIn(case, stmts)
+            
+    def test_lang_tags(self):
+        """
+        Test language tags
+
+        https://www.w3.org/TR/rdf-syntax-grammar/#section-Syntax-languages
+        :return:
+        """
+        loader = SqliteBulkloader(path=":memory:")
+        loader.bulkload(TEST_LANG_INPUT_OWL)
+
+        def test_lang_tags_ttl(self):
+            """
+            Test language tags
+
+            https://www.w3.org/TR/rdf-syntax-grammar/#section-Syntax-languages
+            :return:
+            """
+            loader = SqliteBulkloader(path=":memory:")
+            loader.bulkload(TEST_LANG_INPUT_TTL)
+
+
+

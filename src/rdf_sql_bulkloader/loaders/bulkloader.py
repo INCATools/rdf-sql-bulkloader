@@ -14,8 +14,9 @@ from prefixmaps.io.parser import load_multi_context
 
 re_untyped_literal = re.compile(r'^"(.*)"$')
 re_typed_literal = re.compile(r'^"(.*)"\^\^<([\S^"]+)>$')
-re_lang_literal = re.compile(r'^"(.*)"@(\w+)$')
-re_blank_node = re.compile(r"^riog(\d+)$")
+re_lang_literal = re.compile(r'^"(.*)"@([\-\w]+)$')
+re_blank_node = re.compile(r'^riog(\d+)$')
+
 
 
 DDL = """
