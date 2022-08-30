@@ -1,10 +1,13 @@
 import sqlite3
+from dataclasses import dataclass
 from typing import Any
 
 from rdf_sql_bulkloader.loaders.bulkloader import BulkLoader
 
 COLS = ["subject", "predicate", "object", "value", "datatype", "language"]
 
+
+@dataclass
 class SqliteBulkloader(BulkLoader):
     connection: Any = None
 

@@ -3,7 +3,6 @@ import click
 import logging
 
 from rdf_sql_bulkloader import __version__
-from rdf_sql_bulkloader.main import demo
 
 __all__ = [
     "main",
