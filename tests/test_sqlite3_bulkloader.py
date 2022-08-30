@@ -29,8 +29,7 @@ class TestSqlit3BulkLoader(unittest.TestCase):
         loader.bulkload(TEST_INPUT_OWL)
         con = loader.connection
         cur = con.cursor()
-        cur.execute("select * from statement WHERE subject=:subject",
-                    {"subject": NUCLEUS})
+        cur.execute("select * from statement WHERE subject=:subject", {"subject": NUCLEUS})
         stmts = list(cur.fetchall())
         for s in stmts:
             print(s)
