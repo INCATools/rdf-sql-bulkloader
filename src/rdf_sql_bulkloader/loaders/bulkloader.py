@@ -1,11 +1,13 @@
+"""
+Base class for loaders
+"""
 import re
 from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Union, Tuple, Iterator, Mapping, Optional, List
+from typing import Iterator, List, Mapping, Optional, Tuple, Union
 
-import curies
 import lightrdf
 from curies import Converter
 from prefixmaps.io.parser import load_multi_context
@@ -13,19 +15,19 @@ from prefixmaps.io.parser import load_multi_context
 re_untyped_literal = re.compile(r'^"(.*)"$')
 re_typed_literal = re.compile(r'^"(.*)"\^\^<([\S^"]+)>$')
 re_lang_literal = re.compile(r'^"(.*)"@(\w+)$')
-re_blank_node = re.compile(r'^riog(\d+)$')
+re_blank_node = re.compile(r"^riog(\d+)$")
 
 
 DDL = """
 CREATE TABLE statement (
-	id TEXT,
-	subject TEXT,
-	predicate TEXT,
-	object TEXT,
-	value TEXT,
-	datatype TEXT,
-	language TEXT,
-        graph TEXT
+    id TEXT,
+    subject TEXT,
+    predicate TEXT,
+    object TEXT,
+    value TEXT,
+    datatype TEXT,
+    language TEXT,
+    graph TEXT
 );
 """
 
@@ -70,9 +72,9 @@ def _parse_literal(o: str) -> Tuple[OBJECT_VALUE, OBJECT_DATATYPE, OBJECT_LANG]:
                 raise ValueError(f"Cannot parse {o}")
     return o_value, o_datatype, o_lang
 
+
 def _parse_literal_as_value(o: str) -> str:
     return _parse_literal(o)[0]
-
 
 
 @dataclass
@@ -80,12 +82,13 @@ class BulkLoader(ABC):
     """
     Base class for all bulk loaders
     """
+
     path: str
     named_prefix_maps: List[str] = None
     prefix_map: PREFIX_MAP = None
     converter: Converter = None
     index_statements = False
-    
+
     def __post_init__(self):
         if self.prefix_map is None:
             named_prefix_maps = self.named_prefix_maps
@@ -101,7 +104,7 @@ class BulkLoader(ABC):
             self.converter = Converter.from_prefix_map(self.prefix_map)
 
     def bulkload(self, path: str):
-        raise NotImplemented
+        raise NotImplementedError
 
     def _parse_node(self, o: str) -> str:
         if re_blank_node.match(o):
@@ -131,9 +134,9 @@ class BulkLoader(ABC):
         prefix_node_map = defaultdict(lambda: [None, None])
         statement_node_map = defaultdict(lambda: [None, None])
         for s, p, o in doc.search_triples(None, None, None):
-            if p == 'http://www.w3.org/ns/shacl#prefix':
+            if p == "http://www.w3.org/ns/shacl#prefix":
                 prefix_node_map[s][0] = _parse_literal_as_value(o)
-            elif p == 'http://www.w3.org/ns/shacl#namespace':
+            elif p == "http://www.w3.org/ns/shacl#namespace":
                 prefix_node_map[s][1] = _parse_literal_as_value(o)
             elif self.index_statements:
                 # this is optional as it may be inefficient to do at the python level
