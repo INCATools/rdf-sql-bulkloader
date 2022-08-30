@@ -2,6 +2,26 @@
 
 Bulk load of SQL table from RDF in Python
 
+## Install
+
+```bash
+pip install rdf-sql-bulkloader
+```
+
+## Usage (Command Line)
+
+```
+rdf-sql-bulkloader load-sqlite  -o cl.db cl.owl
+```
+
+Note: currently only sqlite supported
+
+## Usage (Programmatic)
+
+See tests
+
+## Core table
+
 ```
 CREATE TABLE statement (
 	id TEXT,
@@ -14,6 +34,26 @@ CREATE TABLE statement (
         graph TEXT
 );
 ```
+
+## Prefixes
+
+this uses the merged prefixmap from [prefixmaps](https://github.com/linkml/prefixmaps) by default
+
+This can be overridden programmatically when instantiating a loader, e.g
+
+Explicit map:
+
+```python
+loader = SqliteBulkloader(path=path, prefix_map={...})
+```
+
+Using pre-registered:
+
+```python
+loader = SqliteBulkloader(path=path, named_prefix_maps=["obo", "prefixcc"])
+```
+
+- TODO: add override from CLI
 
 
 ## Acknowledgements
