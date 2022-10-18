@@ -31,7 +31,7 @@ CREATE TABLE statement (
 PREFIX_DDL = """
 CREATE TABLE prefix (
     prefix TEXT,
-	base TEXT
+    base TEXT
 );
 """
 
@@ -111,9 +111,7 @@ class BulkLoader(ABC):
         else:
             return uri.value
 
-    def statements(
-        self, path: Union[Path, str], mime_type=None
-    ) -> Iterator[STATEMENT]:
+    def statements(self, path: Union[Path, str], mime_type=None) -> Iterator[STATEMENT]:
         """Yields statement rows from an RDF file."""
         if mime_type is None:
             mime_type = DEFAULT_MIME_TYPE

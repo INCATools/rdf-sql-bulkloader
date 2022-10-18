@@ -4,8 +4,7 @@ import unittest
 
 from pyoxigraph import parse
 
-from rdf_sql_bulkloader import SqliteBulkloader
-from tests import NUCLEUS, TEST_INPUT_OWL, TEST_LANG_INPUT_OWL, TEST_LANG_INPUT_TTL, TEST_PREFIX_MAP
+from tests import TEST_INPUT_OWL
 
 DEFN = (
     "A membrane-bounded organelle of eukaryotic cells in which chromosomes "
