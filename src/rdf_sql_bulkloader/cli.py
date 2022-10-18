@@ -35,11 +35,14 @@ def main(verbose: int, quiet: bool):
     "--force/--no-force", default=False, show_default=True, help="Recreates db if already present"
 )
 @click.option(
-    "--rdftab-compatibility/--no-rdftab-compatibility", default=True, show_default=True,
-    help="Creates a statements table, compatible with rdftab"
+    "--rdftab-compatibility/--no-rdftab-compatibility",
+    default=True,
+    show_default=True,
+    help="Creates a statements table, compatible with rdftab",
 )
+@click.option("--named-prefix-map", "-P", multiple=True, help="Names of prefixmaps, e.g. obo")
 @click.argument("files", nargs=-1)
-def load_sqlite(files, output, force: bool, rdftab_compatibility: bool):
+def load_sqlite(files, output, force: bool, rdftab_compatibility: bool, named_prefix_map: tuple):
     """Run the rdf-sql-bulkloader's demo command."""
     output_path = Path(output)
     if output_path.exists():
@@ -47,12 +50,12 @@ def load_sqlite(files, output, force: bool, rdftab_compatibility: bool):
             output_path.unlink()
         else:
             raise ValueError(f"Path exists {output_path}")
-    loader = SqliteBulkloader(output)
+    loader = SqliteBulkloader(
+        output, named_prefix_maps=list(named_prefix_map) if named_prefix_map else None
+    )
     loader.rdftab_compatibility = rdftab_compatibility
-    if len(files) > 1:
-        logging.warning("Blank nodes may be shared TODO FIX ME")
     for file in files:
-        print(file)
+        logging.info(f"Loading {file}")
         loader.bulkload(file)
 
 
