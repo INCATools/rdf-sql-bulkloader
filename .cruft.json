@@ -1,0 +1,19 @@
+{
+  "template": "https://github.com/hrshdhgd/sphintoxetry-cookiecutter",
+  "commit": "2b11e720f1f799afeab2731da2bce438d014ad2c",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "project_name": "rdf-sql-bulkloader",
+      "__project_slug": "rdf_sql_bulkloader",
+      "project_description": "Bulk load of SQL table from RDF in Python",
+      "file_name": "main",
+      "greeting_recipient": "World",
+      "author": "Chris Mungall <cjmungall@lbl.gov>",
+      "github_token_for_doc_deployment": "GH_TOKEN",
+      "github_token_for_pypi_deployment": "PYPI_TOKEN",
+      "_template": "https://github.com/hrshdhgd/sphintoxetry-cookiecutter"
+    }
+  },
+  "directory": null
+}
