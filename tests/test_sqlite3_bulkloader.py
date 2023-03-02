@@ -95,13 +95,13 @@ LANG_CASES = [
 ]
 
 
-class TestSqlit3BulkLoader(unittest.TestCase):
+class TestSqlite3BulkLoader(unittest.TestCase):
     """Test sqlite3."""
 
     def test_bulkload(self):
         """Tests bulkload into an in-memory database."""
         loader = SqliteBulkloader(database_path=":memory:")
-        loader.rdftab_compatibility = True
+        loader.rdftab_compatibility = False
         loader.bulkload(TEST_INPUT_OWL)
         con = loader.connection
         cur = con.cursor()
@@ -111,6 +111,13 @@ class TestSqlit3BulkLoader(unittest.TestCase):
         #    print(f"S={s}")
         for case in CASES:
             self.assertIn(case, stmts)
+
+    def test_bulkload_compat(self):
+        loader = SqliteBulkloader(database_path=":memory:")
+        loader.rdftab_compatibility = True
+        loader.bulkload(TEST_INPUT_OWL)
+        con = loader.connection
+        cur = con.cursor()
         cur.execute("select * from statements WHERE subject=:subject", {"subject": NUCLEUS})
         stmts = list(cur.fetchall())
         # for s in stmts:

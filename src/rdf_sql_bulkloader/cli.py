@@ -31,8 +31,16 @@ def main(verbose: int, quiet: bool):
 
 @main.command()
 @click.option("--output", "-o", required=True)
+@click.option("--format",
+              "-f")
 @click.option(
     "--force/--no-force", default=False, show_default=True, help="Recreates db if already present"
+)
+@click.option(
+    "--append/--no-append", default=False, show_default=True, help="Append to existing db"
+)
+@click.option(
+    "--create-tables/--no-create-tables", default=True, show_default=True, help="Adds statements table"
 )
 @click.option(
     "--rdftab-compatibility/--no-rdftab-compatibility",
@@ -42,21 +50,24 @@ def main(verbose: int, quiet: bool):
 )
 @click.option("--named-prefix-map", "-P", multiple=True, help="Names of prefixmaps, e.g. obo")
 @click.argument("files", nargs=-1)
-def load_sqlite(files, output, force: bool, rdftab_compatibility: bool, named_prefix_map: tuple):
+def load_sqlite(files, format, output, append: bool, force: bool, rdftab_compatibility: bool, named_prefix_map: tuple, **kwargs):
     """Run the rdf-sql-bulkloader's demo command."""
     output_path = Path(output)
-    if output_path.exists():
-        if force:
-            output_path.unlink()
-        else:
-            raise ValueError(f"Path exists {output_path}")
+    if append:
+        if not output_path.exists():
+            raise ValueError(f"Cannot append as {output_path} does not exist")
+    else:
+        if output_path.exists():
+            if force:
+                output_path.unlink()
+            else:
+                raise ValueError(f"Path exists {output_path}")
     loader = SqliteBulkloader(
         output, named_prefix_maps=list(named_prefix_map) if named_prefix_map else None
     )
     loader.rdftab_compatibility = rdftab_compatibility
-    for file in files:
-        logging.info(f"Loading {file}")
-        loader.bulkload(file)
+    logging.info(f"Loading {files}")
+    loader.bulkload(list(files), format, **kwargs)
 
 
 if __name__ == "__main__":

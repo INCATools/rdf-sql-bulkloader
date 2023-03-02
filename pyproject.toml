@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "rdf-sql-bulkloader"
-version = "0.1.0rc2"
+version = "0.0.0"
 description = "rdf-sql-bulkloader"
 authors = ["Chris Mungall <cjmungall@lbl.gov>"]
 license = "BSD 3"
@@ -13,8 +13,8 @@ tox = "^3.25.1"
 click = "^8.1.3"
 importlib = "^1.0.4"
 lightrdf = "^0.2.1"
-curies = "^0.2.0"
-prefixmaps = "^0.1.2"
+curies = "*"
+prefixmaps = "*"
 pyoxigraph = "^0.3.6"
 
 [tool.poetry.dev-dependencies]

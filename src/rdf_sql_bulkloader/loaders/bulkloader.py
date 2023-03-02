@@ -28,6 +28,18 @@ CREATE TABLE statement (
 );
 """
 
+RDFTAB_STATEMENT_DDL = """
+CREATE TABLE statements (
+    stanza TEXT,
+    subject TEXT,
+    predicate TEXT,
+    object TEXT,
+    value TEXT,
+    datatype TEXT,
+    language TEXT
+);
+"""
+
 PREFIX_DDL = """
 CREATE TABLE prefix (
     prefix TEXT,
@@ -64,6 +76,9 @@ class BulkLoader(ABC):
     converter: Converter = None
     index_statements: bool = False
     rdftab_compatibility: bool = True
+    include_graph_name: bool = False
+    graph_name_from_ontology: bool = False
+    include_statement_id: bool = False
     use_shacl_namespaces: bool = True
     batch_size: int = field(default_factory=lambda: DEFAULT_CHUNK)
     _contract_uri_cache: Dict[Union[NamedNode, BlankNode], str] = field(default_factory=lambda: {})
@@ -111,6 +126,9 @@ class BulkLoader(ABC):
         else:
             return uri.value
 
+    def load_prefixes(self):
+        raise NotImplementedError
+
     def statements(self, path: Union[Path, str], mime_type=None) -> Iterator[STATEMENT]:
         """Yields statement rows from an RDF file."""
         if mime_type is None:
@@ -148,4 +166,7 @@ class BulkLoader(ABC):
 
     def ddl_statements(self) -> List[str]:
         """Return CREATE TABLE statements."""
-        return [STATEMENT_DDL, PREFIX_DDL]
+        if self.rdftab_compatibility:
+            return [RDFTAB_STATEMENT_DDL, PREFIX_DDL]
+        else:
+            return [STATEMENT_DDL, PREFIX_DDL]
